@@ -1,0 +1,60 @@
+[
+    {
+        "title": "Full Stack Web Development",
+        "description": "Designing and developing high-performance, responsive web applications using the MERN stack with clean architecture.",
+        "subtitle": "Skills & Tools",
+        "skills": [
+            "React.js",
+            "Node.js",
+            "Express",
+            "MongoDB",
+            "SQL",
+            "REST APIs",
+            "Git",
+            "Postman"
+        ],
+        "icon": "ri-code-s-slash-line"
+    },
+    {
+        "title": "C++ Systems",
+        "description": "Building optimized CLI tools and desktop applications focused on performance and efficient memory management.",
+        "subtitle": "Skills & Tools",
+        "skills": [
+            "C++",
+            "OOP",
+            "STL",
+            "Qt",
+            "File Systems",
+            "Algorithms"
+        ],
+        "icon": "ri-terminal-box-line"
+    },
+    {
+        "title": "UI/UX-Oriented Design",
+        "description": "Minimalist interfaces focused on usability, dark mode optimization, and responsive layouts.",
+        "subtitle": "Skills & Tools",
+        "skills": [
+            "Figma",
+            "CSS Architecture",
+            "Responsive Design",
+            "Aesthetic UI"
+        ],
+        "icon": "ri-layout-masonry-line"
+    },
+    {
+        "title": "Backend & API Architecture",
+        "description": "Building robust, scalable server-side logic and architecting RESTful APIs with a focus on security, performance, and seamless data flow.",
+        "subtitle": "Technical Stack",
+        "skills": [
+            "Node.js",
+            "Express.js",
+            "JWT Auth",
+            "Middleware Design",
+            "Mongoose",
+            "Schema Modeling",
+            "Error Handling",
+            "CORS Security"
+        ],
+        "icon": "ri-server-line"
+    }
+]

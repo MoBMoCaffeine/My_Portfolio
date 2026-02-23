@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <!--=============== FAVICON ===============-->
+   <link rel="shortcut icon" href="assets/img/favicon_io/favicon.ico" type="image/x-icon">
+
+   <!--=============== REMIX ICONS ===============-->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+
+   <!--=============== SWIPER CSS ===============-->
+   <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+
+   <!--=============== CSS ===============-->
+   <link rel="stylesheet" href="assets/css/styles.css">
+
+   <title>Mohamed Bakr</title>
+</head>
+
+<body>
+   <!--==================== HEADER ====================-->
+   <header class="header" id="header">
+      <div class="blob-animate"></div>
+
+      <nav class="nav container">
+         <a href="#" class="nav__logo">Mohamed</a>
+
+         <div class="nav__menu">
+            <ul class="nav__list">
+               <li>
+                  <a href="#about" class="nav__link">About Me</a>
+               </li>
+
+               <li>
+                  <a href="#projects" class="nav__link">Projects</a>
+               </li>
+
+               <li>
+                  <a href="#contact" class="nav__link">Contact Me</a>
+               </li>
+            </ul>
+         </div>
+      </nav>
+   </header>
+
+   <!--==================== MAIN ====================-->
+   <main class="main">
+      <!-- CUSTOM CURSOR -->
+      <div class="cursor"></div>
+      <!--==================== HOME ====================-->
+      <section class="home section">
+         <div class="home__shadow"></div>
+
+         <div class="home__container container grid">
+            <div class="home__data">
+               <h3 class="home__greeting">Hello, I'm</h3>
+               <h1 class="home__name">Mohamed <br> Bakr</h1>
+            </div>
+
+            <div class="home__image">
+               <div class="blob-animate"></div>
+
+               <img src="assets/img/MohamedBakr2.png" alt="IMAGE" class="home__perfil">
+            </div>
+
+            <div class="home__info">
+               <h3 class="home__split">Full Stack</h3>
+               <h2 class="home__profession-1">MERN Dev</h2>
+               <h2 class="home__profession-2">CS Student</h2>
+            </div>
+
+            <div class="home__social">
+               <a href="https://www.linkedin.com/in/mohamed-bakr-6641b1376" target="_blank" class="home__social-link">
+                  <i class="ri-linkedin-box-line"></i>
+               </a>
+
+               <a href="https://github.com/MoBMoCaffeine" target="_blank" class="home__social-link">
+                  <i class="ri-github-line"></i>
+               </a>
+
+               <a href="" target="_blank" class="home__social-link">
+                  <i class="ri-whatsapp-line"></i>
+               </a>
+
+               <a href="mailto:bakrm1921@gmail.com" target="_blank" class="home__social-link">
+                  <i class="ri-google-line"></i>
+               </a>
+            </div>
+
+            <a href="assets/pdf/Bakr_s_resume.pdf" download target="_blank" class="home__cv">
+               RESUME <i class="ri-file-list-2-line"></i>
+            </a>
+         </div>
+      </section>
+
+      <!--==================== ABOUT ====================-->
+      <section class="about section" id="about">
+         <div class="about__shadow"></div>
+
+         <div class="about__container container grid">
+            <div class="about__data">
+               <h2 class="section__title">
+                  <span>Engineering</span>
+                  <br> Scalable Digital Solutions
+               </h2>
+
+               <p class="about__description">
+                  I'm a <b>Full Stack Developer</b> and <b>Computer Science</b> student at
+                  Qena University (GPA: 3.68 / 4.0).
+                  I specialize in the <b>MERN stack</b> (React.js, Node.js) and enjoy
+                  designing systems that balance clean back-end logic with
+                  intuitive, responsive front-end interfaces.
+                  My work focuses on performance, scalability, and elegant UI/UX.
+                  Currently expanding my knowledge in <b>Artificial Intelligence</b>.
+               </p>
+
+               <a href="assets/pdf/Bakr_s_resume.pdf" download target="_blank" class="button">
+                  Resume <i class="ri-file-list-2-line"></i>
+               </a>
+            </div>
+
+            <div class="about__image">
+               <div class="blob-animate"></div>
+               <div class="blob-animate"></div>
+
+               <img src="assets/img/About.png" alt="IMAGE" class="about__perfil">
+            </div>
+         </div>
+      </section>
+
+      <!--==================== PROJECTS ====================-->
+      <section class="projects section" id="projects">
+         <h2 class="section__title">
+            <span>Engineering</span>
+            <br> Scalable Digital Solutions
+         </h2>
+
+         <div class="projects__container container grid">
+            <div class="projects__swiper swiper">
+               <div class="swiper-wrapper" id="projects-content"></div>
+
+               <div class="swiper-pagination"></div>
+            </div>
+         </div>
+      </section>
+
+      <!--==================== WORK ====================-->
+      <section class="work section">
+         <h2 class="section__title">
+            <span>Experience</span>
+            <br> & Education
+         </h2>
+
+         <div class="work__container container grid">
+            <div class="work__tabs">
+               <span class="work__blob"></span>
+
+               <!-- Experience -->
+               <button class="work__button work-active" data-target="#experience">
+                  Experience <i class="ri-briefcase-3-line"></i>
+               </button>
+
+               <!-- Education -->
+               <button class="work__button" data-target="#education">
+                  Education <i class="ri-graduation-cap-line"></i>
+               </button>
+            </div>
+
+            <div class="work__area">
+               <div class="work__line"></div>
+
+               <!-- Content Experience -->
+               <div class="work__content work-active" data-content id="experience"></div>
+
+               <!-- Content Education -->
+               <div class="work__content" data-content id="education"></div>
+            </div>
+         </div>
+      </section>
+
+      <!--==================== SERVICES ====================-->
+      <section class="services section">
+         <h2 class="section__title">What I <span>Offer</span></h2>
+
+         <div class="services__container container grid" id="services-content"></div>
+
+      </section>
+
+      <!-- skipped for now -->
+      <!--==================== TESTIMONIALS ====================-->
+      <!-- <section class="testimonials section">
+         <h2 class="section__title">
+         </h2>
+
+         <div class="testimonials__container container grid">
+
+         </div>
+      </section> -->
+      <!-- skipped for now -->
+
+      <!--==================== CONTACT ====================-->
+      <section class="contact section" id="contact">
+         <div class="contact__container container grid">
+            <div class="contact__data">
+               <h2 class="section__title">Contact Me</h2>
+
+               <p class="contact__description">
+                  Tell Me About Your Next Project.
+               </p>
+
+               <button class="contact__button button" id="contact-btn">
+                  Copy Email <i class="ri-file-copy-line"></i>
+
+                  <span class="contact__email" id="contact-email">bakrm1921@gmail.com</span>
+               </button>
+            </div>
+
+            <div class="contact__content grid">
+               <div class="contact__info grid">
+                  <div class="">
+                     <h3 class="contact__title">Email</h3>
+                     <address class="contact__address">bakrm1921@gmail.com</address>
+                  </div>
+
+                  <div class="">
+                     <h3 class="contact__title">Location</h3>
+                     <address class="contact__address">Qena, Egypt</address>
+                  </div>
+               </div>
+
+               <div class="contact__social">
+                  <h3 class="contact__title">Social Media</h3>
+
+                  <div class="contact__links">
+                     <a href="https://www.linkedin.com/in/mohamed-bakr-6641b1376"  target="_blank" class="contact__link">
+                        LinkedIn
+                        <i class="ri-arrow-right-up-long-line"></i>
+                     </a>
+
+                     <a href="https://github.com/MoBMoCaffeine"  target="_blank" class="contact__link">
+                        GitHub
+                        <i class="ri-arrow-right-up-long-line"></i>
+                     </a>
+                     <a href="https://your-portfolio-link-here.com"  target="_blank" class="contact__link">
+                        Portfolio
+
+                        <i class="ri-arrow-right-up-long-line"></i>
+                     </a>
+                  </div>
+               </div>
+
+               <div class="contact__write">
+                  <h3 class="contact__title">Write Me & We'll Talk</h3>
+
+                  <div class="contact__links">
+                     <a href="https://wa.me/201001873643" target="_blank" class="contact__link">
+                        WhatsApp
+                        <i class="ri-arrow-right-up-long-line"></i>
+                     </a>
+
+                     <a href="https://m.me/mohamed.b.mohamed.965792" target="_blank" class="contact__link">
+                        Messenger
+                        <i class="ri-arrow-right-up-long-line"></i>
+                     </a>
+
+                     <a href="https://t.me/+201009890872" target="_blank" class="contact__link">
+                        Telegram
+                        <i class="ri-arrow-right-up-long-line"></i>
+                     </a>
+
+                     <a href="https://www.instagram.com/mhmed_768099/" target="_blank" class="contact__link">
+                        Instagram
+                        <i class="ri-arrow-right-up-long-line"></i>
+                     </a>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+      </section>
+   </main>
+
+   <!--==================== FOOTER ====================-->
+   <footer class="footer grid">
+      <div class="blob-animate"></div>
+
+      <div class="footer__copy">
+         All Rights Reserved By <span>Mohamed Bakr</span>
+      </div>
+
+      <div class="footer__year">
+         &#169; <span id="footer-year"></span>
+      </div>
+   </footer>
+
+   <!--=============== SCROLL REVEAL ===============-->
+   <script src="assets/js/scrollreveal.min.js"></script>
+
+   <!--=============== ANIME JS ===============-->
+   <script src="https://cdn.jsdelivr.net/npm/animejs/dist/bundles/anime.umd.min.js"></script>
+
+   <!--=============== SWIPER JS ===============-->
+   <script src="assets/js/swiper-bundle.min.js"></script>
+   <!--=============== MAIN JS ===============-->
+   <script src="assets/js/main.js"></script>
+</body>
+
+</html>

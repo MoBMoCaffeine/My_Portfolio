@@ -1,0 +1,237 @@
+========== NAV ==========
+.nav__logo
+Mohamed Bakr
+
+.nav__link
+About - Projects - Experience - Services - Contact
+
+
+========== HOME ==========
+.home__greeting
+Hi, I'm
+
+.home__name
+Mohamed <br> Bakr
+
+.home__split
+Full Stack
+
+.home__profession-1 .home__profession-2
+MERN Developer
+& CS Student
+
+.home__description
+Building scalable web applications with clean architecture,
+high performance, and minimalist design.
+
+.home__social
+https://github.com/MoBMoCaffeine
+https://www.linkedin.com/in/mohamed-bakr-6641b1376
+mailto:bakrm1921@gmail.com
+
+.home__cv
+Download Resume
+
+
+========== ABOUT ==========
+.section__title
+<span>Engineering</span> 
+<br> Scalable Digital Solutions
+
+.about__description
+I'm a Full Stack Developer and Computer Science student at
+South Valley University (GPA: 3.69 / 4.0).
+
+I specialize in the MERN stack (React.js, Node.js) and enjoy
+designing systems that balance clean back-end logic with
+intuitive, responsive front-end interfaces.
+
+My work focuses on performance, scalability, and elegant UI/UX.
+Currently expanding my knowledge in Artificial Intelligence.
+
+
+.button
+View Full Resume
+
+
+========== PROJECTS ==========
+.section__title
+Selected <br>
+<span>Projects</span>
+
+.projects__number h1 - h3 .projects__title .projects__subtitle .projects__description
+
+01
+TaskNinja (npm Package)
+Node.js CLI Productivity Tool
+Engineered and published a robust CLI task manager on npm
+with persistent storage and optimized terminal workflow.
+Reached 1000+ downloads.
+
+Technologies used
+JavaScript, Node.js, File System, CLI Architecture
+
+02
+Task Harmony
+Modern Web Task Manager
+Built a responsive web app with dark mode support
+and efficient state management.
+
+Technologies used
+React.js, Supabase, HTML, CSS
+
+03
+Book Library GUI
+Cross-Platform Desktop System
+Developed a complete CRUD-based desktop application
+with searchable database interface.
+
+Technologies used
+C++, Qt Framework, Database Systems
+
+04
+Responsive Delivery Website
+Mobile-First Frontend Platform
+Crafted a responsive food delivery UI with
+92% cross-device compatibility.
+
+Technologies used
+HTML5, CSS3, JavaScript, CSS Grid, Flexbox
+
+05
+Handmade Vector (STL-like)
+Custom Data Structure Implementation
+Built a vector container from scratch
+to deepen understanding of memory management.
+
+Technologies used
+C++, STL Concepts, Data Structures
+
+
+إليك النصوص المنسقة والمحسنة لتناسب موقعك الشخصي، مقسمة حسب الكلاسات (Classes) التي طلبتها:
+
+### **========== EXPERIENCE & ACTIVITIES ==========**
+
+**.section__title**
+<span>Experience</span>
+ & Leadership
+
+**.work__button**
+Experience
+Activities
+
+**.work__title .work__subtitle .work__year .work__description**
+
+**Freelance Full Stack Developer**
+Remote
+2024 - Present
+Developing high-performance, scalable web applications using the MERN stack (Node.js, React). Focused on delivering clean back-end logic and responsive front-end interfaces for diverse freelance clients.
+
+**University Problem-Solving Participant**
+South Valley University 2024 - Present Actively solving complex algorithmic challenges and coding puzzles to sharpen logical thinking and enhance problem-solving efficiency within the university's technical community.
+
+**Student Organizer – Academic Resources**
+South Valley University 2024 - Present Spearheaded a student-led initiative to organize and distribute academic references , successfully supporting over 400 students in their educational journey.
+
+---
+
+### **========== EDUCATION ==========**
+
+**.section__title**
+<span>Educational</span>
+ Background
+
+**.work__button**
+Education
+Certifications
+
+**.work__title .work__subtitle .work__year .work__description**
+
+**Bachelor of Science in Computer Science**
+South Valley University Expected 2028 Maintaining a strong academic standing with a **GPA of 3.69/4.0**. Specialized in core Computer Science principles including Data Structures, Algorithms, and Software Engineering.
+
+**Web Design Professional Certificate**
+National Telecommunication Institute (NTI) End of 2025 Successfully completed intensive training in modern web design principles , UI/UX best practices , and industry-standard creative tools.
+
+
+========== SERVICES ==========
+.section__title
+What I <span>Offer</span>
+
+.services__title .services__description .services__subtitle .services__skills
+
+Full Stack Web Development
+Designing and developing high-performance,
+responsive web applications using the MERN stack
+with clean architecture and scalable structure.
+
+Skills & Tools
+React.js - Node.js - Express - MongoDB
+SQL - REST APIs - Git - Postman
+
+C++ Systems & Desktop Development
+Building optimized CLI tools and desktop applications
+focused on performance and efficient memory management.
+
+Skills & Tools
+C++ - OOP - STL - Qt - File Systems - Algorithms
+
+UI/UX-Oriented Design
+Minimalist interfaces focused on usability,
+dark mode optimization, and responsive layouts.
+
+Skills & Tools
+Figma - CSS Architecture - Responsive Design
+
+
+========== TESTIMONIALS ==========
+.section__title
+<span>Professional</span> 
+<br> Approach
+
+.testimonials__number
+5.0
+
+.testimonials p
+Detail-oriented developer focused on scalable architecture,
+clean code practices, and efficient workflow optimization.
+Strong balance between backend performance and frontend usability.
+
+
+========== CONTACT ==========
+.section__title
+Let's Build Something Great
+
+.contact__description
+Open to freelance opportunities, collaborations,
+and innovative project ideas.
+
+.contact__button
+Copy Email
+
+.contact__email
+bakrm1921@gmail.com
+
+.contact__title
+Email
+Location
+Portfolio
+Social
+
+.contact__address
+Qena, Egypt
+
+.contact__link
+LinkedIn - GitHub - Portfolio
+
+https://www.linkedin.com/in/mohamed-bakr-6641b1376
+https://github.com/MoBMoCaffeine
+https://your-portfolio-link-here.com
+
+
+========== FOOTER ==========
+.footer__copy
+All Rights Reserved By <span>Mohamed Bakr</span>
+
+.footer__year
+&#169; 2026

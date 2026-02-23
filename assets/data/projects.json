@@ -1,0 +1,65 @@
+[
+    {
+        "id": "01",
+        "category": "NodeJS",
+        "title": "TaskNinja (npm Package)",
+        "subtitle": "Node.js CLI Productivity Tool",
+        "description": "Engineered and published a robust CLI task manager on npm with persistent storage and optimized terminal workflow. Reached 1000+ downloads.",
+        "image": "assets/img/taskNinja.png",
+        "link": "https://github.com/MoBMoCaffeine/taskninja--todo-CLI-app-"
+    },
+    {
+        "id": "02",
+        "category": "Web",
+        "title": "Task Harmony",
+        "subtitle": "Modern Web Task Manager",
+        "description": "Built a responsive web app with dark mode support and efficient state management using React and Neon.",
+        "image": "assets/img/TH.png",
+        "link": "https://github.com/MoBMoCaffeine/task-harmony"
+    },
+    {
+        "id": "03",
+        "category": "C++ - Qt",
+        "title": "Book Library GUI",
+        "subtitle": "Cross-Platform Desktop System",
+        "description": "Developed a complete CRUD-based desktop application with searchable database interface using C++ and Qt.",
+        "image": "assets/img/GS.png",
+        "link": "https://github.com/MoBMoCaffeine/BookLibraryGUI"
+    },
+    {
+        "id": "04",
+        "category": "Web",
+        "title": "Responsive Delivery Website",
+        "subtitle": "Mobile-First Frontend Platform",
+        "description": "Crafted a responsive food delivery UI with 92% cross-device compatibility using HTML, CSS, and JS.",
+        "image": "assets/img/RWD.png",
+        "link": "https://github.com/MoBMoCaffeine/Responsive_Delivery_website"
+    },
+    {
+        "id": "05",
+        "category": "DS",
+        "title": "Handmade Vector (STL-like)",
+        "subtitle": "Custom Data Structure Implementation",
+        "description": "Built a vector container from scratch to deepen understanding of memory management and C++ templates.",
+        "image": "assets/img/STLs.png",
+        "link": "https://github.com/MoBMoCaffeine/handMadeVector"
+    },
+    {
+        "id": "06",
+        "category": "C++ - Opencv",
+        "title": "Encrypted Voice Maker",
+        "subtitle": "Ghost Sound Maker",
+        "description": "Experience converting images and text into fully encrypted audio - using the Opencv library",
+        "image": "assets/img/GS.png",
+        "link": "https://github.com/MoBMoCaffeine/Ghost_Sound"
+    },
+    {
+        "id": "07",
+        "category": "C++ - Opencv",
+        "title": "Decode Encrypted Audio ",
+        "subtitle": "ANTI - Ghost Sound Maker",
+        "description": "Experience converting fully encrypted audio into images and text - using the Opencv library",
+        "image": "assets/img/DEC.png",
+        "link": "https://github.com/MoBMoCaffeine/Audio_Decoder"
+    }
+]

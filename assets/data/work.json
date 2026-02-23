@@ -1,0 +1,36 @@
+{
+    "experience": [
+        {
+            "title": "Freelance Full Stack Developer",
+            "subtitle": "Remote",
+            "year": "2024 - Present",
+            "description": "Developing high-performance, scalable web applications using the MERN stack (Node.js, React). Focused on delivering clean back-end logic and responsive front-end interfaces."
+        },
+        {
+            "title": "University Problem-Solving Participant",
+            "subtitle": "South Valley University",
+            "year": "2024 - Present",
+            "description": "Actively solving complex algorithmic challenges to enhance analytical and logical thinking within the university's technical community."
+        },
+        {
+            "title": "Student Organizer – Academic Resources",
+            "subtitle": "South Valley University",
+            "year": "2024 - Present",
+            "description": "Spearheaded a student-led initiative to organize and distribute academic references, supporting over 400 students."
+        }
+    ],
+    "education": [
+        {
+            "title": "Bachelor of Science in Computer Science",
+            "subtitle": "South Valley University",
+            "year": "Expected 2028",
+            "description": "Maintaining a strong academic standing with a GPA of 3.69/4.0. Specialized in core Computer Science principles including Data Structures and Algorithms."
+        },
+        {
+            "title": "Web Design Professional Certificate",
+            "subtitle": "NTI",
+            "year": "End of 2025",
+            "description": "Completed intensive training in modern web design principles, UI/UX best practices, and industry-standard creative tools."
+        }
+    ]
+}
