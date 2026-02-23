@@ -1,0 +1,33 @@
+# === Visual Studio & C++ (Audio Decoder) ===
+.vs/
+x64/
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.pdb
+*.ilk
+*.exe
+*.dll
+*.sdf
+*.opensdf
+*.ipch
+*.iobj
+*.ipdb
+*.tlog/
+*.lastbuildstate
+
+# === JetBrains IDEs (From .idea folder in your image) ===
+.idea/
+
+# === Web Development (Assets & OS) ===
+.DS_Store
+Thumbs.db
+
+# === Backup & Logs ===
+*.log
+*.bak
