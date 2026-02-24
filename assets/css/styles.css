@@ -65,6 +65,11 @@
     --smaller-font-size: 0.813rem;
   }
 }
+::selection {
+    background-color: var(--first-color);
+    color: var(--body-color);
+    text-shadow: none;
+}
 
 /*=============== BASE ===============*/
 * {
@@ -86,6 +91,7 @@ button {
 body {
   background-color: var(--body-color);
   color: var(--text-color);
+  cursor: none;
 }
 
 button {
@@ -114,6 +120,9 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 /*=============== REUSABLE CSS CLASSES ===============*/
@@ -191,16 +200,16 @@ img {
   left: 0;
   top: 0;
   z-index: 9999;
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   background-color: var(--first-color);
   border-radius: 50%;
   box-shadow: 0 0 30px var(--first-color);
   mix-blend-mode: difference;
   pointer-events: none;
-  transition: transform .2s ease-out,
-              left .2s ease-out,
-              top .2s ease-out,
+  transition: transform .1s ease-out,
+              left .1s ease-out,
+              top .1s ease-out,
               width .3s,
               height .3s;
 }
@@ -1194,4 +1203,5 @@ img {
   .cursor{
     display: none;
   }
+  body { cursor: auto; }
 }
