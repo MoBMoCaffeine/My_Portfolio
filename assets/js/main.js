@@ -1,3 +1,18 @@
+/*=============== INTRO LOADER ===============*/
+window.addEventListener('load', () => {
+    const intro = document.querySelector('.intro-loader');
+    setTimeout(() => {
+        if(intro) {
+            intro.classList.add('fade-up');
+        }
+    }, 2500);
+
+    setTimeout(() => {
+        if(intro) {
+            intro.style.display = 'none';
+        }
+    }, 3700);
+});
 /*=============== HOME SPLIT TEXT ===============*/
 const { animate, splitText, stagger } = anime;
 const { chars: chars1 } = splitText(".home__profession-1", {
