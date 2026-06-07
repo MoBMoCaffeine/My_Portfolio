@@ -1,17 +1,17 @@
 /*=============== INTRO LOADER ===============*/
-window.addEventListener('load', () => {
-    const intro = document.querySelector('.intro-loader');
-    setTimeout(() => {
-        if(intro) {
-            intro.classList.add('fade-up');
-        }
-    }, 2500);
+window.addEventListener("load", () => {
+  const intro = document.querySelector(".intro-loader");
+  setTimeout(() => {
+    if (intro) {
+      intro.classList.add("fade-up");
+    }
+  }, 2500);
 
-    setTimeout(() => {
-        if(intro) {
-            intro.style.display = 'none';
-        }
-    }, 3700);
+  setTimeout(() => {
+    if (intro) {
+      intro.style.display = "none";
+    }
+  }, 3700);
 });
 /*=============== HOME SPLIT TEXT ===============*/
 const { animate, splitText, stagger } = anime;
@@ -104,69 +104,72 @@ function initSwiper() {
 // Glassmorphism tabs
 
 /*=============== FETCH AND RENDER WORK DATA ===============*/
-const experienceContainer = document.getElementById('experience'),
-      educationContainer = document.getElementById('education');
+const experienceContainer = document.getElementById("experience"),
+  educationContainer = document.getElementById("education");
 
-fetch('assets/data/work.json')
-    .then(response => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
-    })
-    .then(data => {
-        renderWorkItems(data.experience, experienceContainer);
-        renderWorkItems(data.education, educationContainer);
-        initWorkTabs();
-    })
-    .catch(error => console.error('Error loading work data:', error));
+fetch("assets/data/work.json")
+  .then((response) => {
+    if (!response.ok) throw new Error("Network response was not ok");
+    return response.json();
+  })
+  .then((data) => {
+    renderWorkItems(data.experience, experienceContainer);
+    renderWorkItems(data.education, educationContainer);
+    initWorkTabs();
+  })
+  .catch((error) => console.error("Error loading work data:", error));
 
 function renderWorkItems(items, container) {
-    if(!container) return;
-    container.innerHTML = items.map(item => `
+  if (!container) return;
+  container.innerHTML = items
+    .map(
+      (item) => `
         <div class="work__card">
             <div class="work__data">
                 <div>
-                    <h1 class="work__title">${item.title.replace(' ', '<br>')}</h1>
+                    <h1 class="work__title">${item.title.replace(" ", "<br>")}</h1>
                     <h3 class="work__subtitle">${item.subtitle}</h3>
                 </div>
                 <h2 class="work__year">${item.year}</h2>
             </div>
             <p class="work__description">${item.description}</p>
         </div>
-    `).join("");
+    `,
+    )
+    .join("");
 }
 
 /*=============== WORK TABS LOGIC (ELASTIC BLOB) ===============*/
 function initWorkTabs() {
-    const tabs = document.querySelectorAll("[data-target]"),
-          tabContents = document.querySelectorAll("[data-content]"),
-          blob = document.querySelector(".work__blob");
+  const tabs = document.querySelectorAll("[data-target]"),
+    tabContents = document.querySelectorAll("[data-content]"),
+    blob = document.querySelector(".work__blob");
 
-    if (!blob) return;
+  if (!blob) return;
 
-    const updateBlob = (tab) => {
-        blob.style.left = `${tab.offsetLeft}px`;
-        blob.style.width = `${tab.offsetWidth}px`;
-    };
+  const updateBlob = (tab) => {
+    blob.style.left = `${tab.offsetLeft}px`;
+    blob.style.width = `${tab.offsetWidth}px`;
+  };
 
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            const target = document.querySelector(tab.dataset.target);
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = document.querySelector(tab.dataset.target);
 
-            tabContents.forEach(tc => tc.classList.remove("work-active"));
-            target.classList.add("work-active");
+      tabContents.forEach((tc) => tc.classList.remove("work-active"));
+      target.classList.add("work-active");
 
-            tabs.forEach(t => t.classList.remove("work-active"));
-            tab.classList.add("work-active");
+      tabs.forEach((t) => t.classList.remove("work-active"));
+      tab.classList.add("work-active");
 
-            updateBlob(tab);
-        });
+      updateBlob(tab);
     });
+  });
 
-    
-    const initialTab = document.querySelector(".work__button.work-active");
-    if (initialTab) {
-        setTimeout(() => updateBlob(initialTab), 100);
-    }
+  const initialTab = document.querySelector(".work__button.work-active");
+  if (initialTab) {
+    setTimeout(() => updateBlob(initialTab), 100);
+  }
 }
 
 /*=============== SERVICES DYNAMIC RENDER ===============*/
@@ -176,13 +179,15 @@ fetch("assets/data/services.json")
   .then((response) => response.json())
   .then((data) => {
     renderServices(data);
-    initServicesAccordion(); 
+    initServicesAccordion();
   })
   .catch((error) => console.error("Error loading services:", error));
 
 function renderServices(services) {
-  servicesContent.innerHTML = services.map((service, index) => `
-    <article class="services__card ${index === 0 ? 'services-open' : 'services-close'}">
+  servicesContent.innerHTML = services
+    .map(
+      (service, index) => `
+    <article class="services__card ${index === 0 ? "services-open" : "services-close"}">
        <div class="blob"></div>
 
        <div class="services__data">
@@ -191,10 +196,10 @@ function renderServices(services) {
           <p class="services__description">${service.description}</p>
        </div>
 
-       <div class="services__info" style="height: ${index === 0 ? 'auto' : '0'}">
+       <div class="services__info" style="height: ${index === 0 ? "auto" : "0"}">
           <h3 class="services__subtitle">${service.subtitle}</h3>
           <ul class="services__skills">
-             ${service.skills.map(skill => `<li class="services__skill">${skill}</li>`).join("")}
+             ${service.skills.map((skill) => `<li class="services__skill">${skill}</li>`).join("")}
           </ul>
        </div>
 
@@ -202,115 +207,156 @@ function renderServices(services) {
          <i class="ri-arrow-down-s-line"></i>
        </button>
     </article>
-  `).join("");
+  `,
+    )
+    .join("");
 }
 
 /*=============== SERVICES ACCORDION FUNCTION ===============*/
 function initServicesAccordion() {
-    const servicesCards = document.querySelectorAll('.services__card');
+  const servicesCards = document.querySelectorAll(".services__card");
 
-    servicesCards.forEach((card) => {
-        const button = card.querySelector('.services__button');
-        const info = card.querySelector('.services__info');
+  servicesCards.forEach((card) => {
+    const button = card.querySelector(".services__button");
+    const info = card.querySelector(".services__info");
 
-        if(card.classList.contains('services-open')) {
-            info.style.height = info.scrollHeight + 'px';
-        }
+    if (card.classList.contains("services-open")) {
+      info.style.height = info.scrollHeight + "px";
+    }
 
-        button.addEventListener('click', () => {
-            const isOpen = card.classList.contains('services-open');
+    button.addEventListener("click", () => {
+      const isOpen = card.classList.contains("services-open");
 
-            servicesCards.forEach((otherCard) => {
-                otherCard.classList.replace('services-open', 'services-close');
-                otherCard.querySelector('.services__info').style.height = '0';
-            });
+      servicesCards.forEach((otherCard) => {
+        otherCard.classList.replace("services-open", "services-close");
+        otherCard.querySelector(".services__info").style.height = "0";
+      });
 
-            if (!isOpen) {
-                card.classList.replace('services-close', 'services-open');
-                info.style.height = info.scrollHeight + 'px';
-            }
-        });
+      if (!isOpen) {
+        card.classList.replace("services-close", "services-open");
+        info.style.height = info.scrollHeight + "px";
+      }
     });
+  });
 }
 /*=============== TESTIMONIALS OF DUPLICATE CARDS ===============*/
 
 /*=============== COPY CONTACT ===============*/
-const copyBtn = document.getElementById('contact-btn'),
-      copyEmail = document.getElementById('contact-email').textContent;
-copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(copyEmail).then(() => {
-        copyBtn.innerHTML = 'Email Copied <i class="ri-check-line"></i>';
+const copyBtn = document.getElementById("contact-btn"),
+  copyEmail = document.getElementById("contact-email").textContent;
+copyBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText(copyEmail).then(() => {
+    copyBtn.innerHTML = 'Email Copied <i class="ri-check-line"></i>';
 
-        setTimeout(() => {
-            copyBtn.innerHTML = 'Copy Email <i class="ri-file-copy-line">'
-        }, 2000);
-    });
+    setTimeout(() => {
+      copyBtn.innerHTML = 'Copy Email <i class="ri-file-copy-line">';
+    }, 2000);
+  });
 });
 /*=============== CURRENT YEAR OF THE FOOTER ===============*/
-const textYear = document.getElementById('footer-year'),
-      currentYear = new Date().getFullYear();
+const textYear = document.getElementById("footer-year"),
+  currentYear = new Date().getFullYear();
 textYear.textContent = currentYear;
 /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
-const sections = document.querySelectorAll('section[id]');
+const sections = document.querySelectorAll("section[id]");
 
 const scrollActive = () => {
-    const scrollY = window.scrollY;
+  const scrollY = window.scrollY;
 
-    sections.forEach(section => {
-        const id = section.id,
-              top = section.offsetTop - 50,
-              height = section.offsetHeight,
-              link = document.querySelector('.nav__menu a[href*=' + id + ']');
-        if(!link) return;
+  sections.forEach((section) => {
+    const id = section.id,
+      top = section.offsetTop - 50,
+      height = section.offsetHeight,
+      link = document.querySelector(".nav__menu a[href*=" + id + "]");
+    if (!link) return;
 
-        link.classList.toggle('active-link', scrollY > top && scrollY <= top + height);
-    });
+    link.classList.toggle(
+      "active-link",
+      scrollY > top && scrollY <= top + height,
+    );
+  });
 };
-window.addEventListener('scroll', scrollActive);
+window.addEventListener("scroll", scrollActive);
 /*=============== CUSTOM CURSOR ===============*/
-const cursor = document.querySelector('.cursor');
-let mouseX = 0, mouseY = 0;
+const cursor = document.querySelector(".cursor");
+let mouseX = 0,
+  mouseY = 0;
 
 const cursorMove = () => {
-    cursor.style.left = `${mouseX}px`;
-    cursor.style.top = `${mouseY}px`;
-    cursor.style.transform = `translate(-50%, -50%)`;
+  cursor.style.left = `${mouseX}px`;
+  cursor.style.top = `${mouseY}px`;
+  cursor.style.transform = `translate(-50%, -50%)`;
 
-    requestAnimationFrame(cursorMove);
+  requestAnimationFrame(cursorMove);
 };
 
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
 });
 
 cursorMove();
 /* Hide custom cursor on links */
-const a = document.querySelectorAll('a');
+const a = document.querySelectorAll("a");
 
-a.forEach(item => {
-    item.addEventListener('mouseover', () => {
-        cursor.classList.add('hide-cursor');
-    });
-    item.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hide-cursor');
-    });
+a.forEach((item) => {
+  item.addEventListener("mouseover", () => {
+    cursor.classList.add("hide-cursor");
+  });
+  item.addEventListener("mouseleave", () => {
+    cursor.classList.remove("hide-cursor");
+  });
 });
+
+/*=============== TECH SCROLL (JSON) ===============*/
+const techLeft = document.getElementById("tech-left");
+const techRight = document.getElementById("tech-right");
+
+fetch("assets/data/techScroll.json")
+  .then((res) => res.json())
+  .then((data) => {
+    renderTech(data);
+  })
+  .catch((err) => console.error("Error loading tech:", err));
+
+function renderTech(techs) {
+  if (!techLeft || !techRight) return;
+
+  const half = Math.ceil(techs.length / 2);
+  const firstRow = techs.slice(0, half);
+  const secondRow = techs.slice(half);
+  const generateTrack = (items) => {
+    const content = items
+      .map(
+        (item) => `
+      <img src="${item.image}" alt="${item.name}">
+    `,
+      )
+      .join("");
+
+    return content + content;
+  };
+
+  techLeft.innerHTML = generateTrack(firstRow);
+  techRight.innerHTML = generateTrack(secondRow);
+}
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const sr = ScrollReveal({
-    origin: 'top',
-    distance: '60px',
-    duration: 2000,
-    delay: 300,
-    // reset: true,
+  origin: "top",
+  distance: "60px",
+  duration: 2000,
+  delay: 300,
+  // reset: true,
 });
 
-sr.reveal(`.home__image, .projects__container, .work__container, .testimonials__container, .contact__container`);
-sr.reveal(`.home__data`, {delay: 900, origin: 'bottom'});
-sr.reveal(`.home__info`, {delay: 1200, origin: 'bottom'});
-sr.reveal(`.home__social, .home__cv`, {delay: 1500});
+sr.reveal(
+  `.home__image, .projects__container, .work__container, .testimonials__container, .contact__container`,
+);
+sr.reveal(`.home__data`, { delay: 900, origin: "bottom" });
+sr.reveal(`.home__info`, { delay: 1200, origin: "bottom" });
+sr.reveal(`.home__social, .home__cv`, { delay: 1500 });
 
-sr.reveal(`.about__data`, {origin: 'left'});
-sr.reveal(`.about__image`, {origin: 'right'});
+sr.reveal(`.about__data`, { origin: "left" });
+sr.reveal(`.about__image`, { origin: "right" });
 
-sr.reveal(`.services__card`, {interval: 100});
+sr.reveal(`.services__card`, { interval: 100 });

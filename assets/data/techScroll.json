@@ -1,0 +1,162 @@
+[
+    {
+        "name": "React",
+        "image": "assets/img/tech/react.svg"
+    },
+    {
+        "name": "Node",
+        "image": "assets/img/tech/nodedotjs.svg"
+    },
+    {
+        "name": "MongoDB",
+        "image": "assets/img/tech/mongodb.svg"
+    },
+    {
+        "name": "Express",
+        "image": "assets/img/tech/express.svg"
+    },
+    {
+        "name": "JavaScript",
+        "image": "assets/img/tech/javascript.svg"
+    },
+    {
+        "name": "HTML",
+        "image": "assets/img/tech/html5.svg"
+    },
+    {
+        "name": "CSS",
+        "image": "assets/img/tech/css.svg"
+    },
+    {
+        "name": "Git",
+        "image": "assets/img/tech/git.svg"
+    },
+    {
+        "name": "GitHub",
+        "image": "assets/img/tech/github.svg"
+    },
+    {
+        "name": "Postman",
+        "image": "assets/img/tech/postman.svg"
+    },
+    {
+        "name": "Python",
+        "image": "assets/img/tech/python.svg"
+    },
+    {
+        "name": "Figma",
+        "image": "assets/img/tech/figma.svg"
+    },
+    {
+        "name": "NestJS",
+        "image": "assets/img/tech/nestjs.svg"
+    },
+    {
+        "name": "Netlify",
+        "image": "assets/img/tech/netlify.svg"
+    },
+    {
+        "name": "Notion",
+        "image": "assets/img/tech/notion.svg"
+    },
+    {
+        "name": "Vercel",
+        "image": "assets/img/tech/vercel.svg"
+    },
+    {
+        "name": "VS Code",
+        "image": "assets/img/tech/vscode.svg"
+    },
+    {
+        "name": "Typescript",
+        "image": "assets/img/tech/typescript.svg"
+    },
+    {
+        "name": "ts-node",
+        "image": "assets/img/tech/tsnode.svg"
+    },
+    {
+        "name": "Redux",
+        "image": "assets/img/tech/redux.svg"
+    },
+    {
+        "name": "Go",
+        "image": "assets/img/tech/go.svg"
+    },
+    {
+        "name": "Lua",
+        "image": "assets/img/tech/lua.svg"
+    },
+    {
+        "name": "C++",
+        "image": "assets/img/tech/cplusplus.svg"
+    },
+    {
+        "name": "C",
+        "image": "assets/img/tech/c.svg"
+    },
+    {
+        "name": "CLion",
+        "image": "assets/img/tech/clion.svg"
+    },
+    {
+        "name": ".ENV",
+        "image": "assets/img/tech/dotenv.svg"
+    },
+    {
+        "name": "Android Studio",
+        "image": "assets/img/tech/androidstudio.svg"
+    },
+    {
+        "name": "Flutter",
+        "image": "assets/img/tech/flutter.svg"
+    },
+    {
+        "name": "Dart",
+        "image": "assets/img/tech/dart.svg"
+    },
+    {
+        "name": "Angular",
+        "image": "assets/img/tech/angular.svg"
+    },
+    {
+        "name": "Git ignore",
+        "image": "assets/img/tech/gitignoredotio.svg"
+    },
+    {
+        "name": "Js delivr",
+        "image": "assets/img/tech/jsdelivr.svg"
+    },
+    {
+        "name": "Markdown",
+        "image": "assets/img/tech/markdown.svg"
+    },
+    {
+        "name": "Nodemon",
+        "image": "assets/img/tech/nodemon.svg"
+    },
+    {
+        "name": "Prettier",
+        "image": "assets/img/tech/prettier.svg"
+    },
+    {
+        "name": "Mongoose",
+        "image": "assets/img/tech/mongoose.svg"
+    },
+    {
+        "name": "JWT",
+        "image": "assets/img/tech/jsonwebtokens.svg"
+    },
+    {
+        "name": "NPM",
+        "image": "assets/img/tech/npm.svg"
+    },
+    {
+        "name": "PHP",
+        "image": "assets/img/tech/php.svg"
+    },
+    {
+        "name": "Ruby",
+        "image": "assets/img/tech/ruby.svg"
+    }
+]

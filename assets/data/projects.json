@@ -61,5 +61,14 @@
         "description": "Experience converting fully encrypted audio into images and text - using the Opencv library",
         "image": "assets/img/DEC.png",
         "link": "https://github.com/MoBMoCaffeine/Audio_Decoder"
+    },
+    {
+        "id": "08",
+        "category": "React.JS",
+        "title": "Basic Admin Dashboard",
+        "subtitle": "React Admin Panel",
+        "description": "A simple admin dashboard built with React, featuring a clean UI and basic functionality for managing users and data.",
+        "image": "assets/img/Admin.png",
+        "link": "https://github.com/MoBMoCaffeine/CRUD-App-React"
     }
 ]
