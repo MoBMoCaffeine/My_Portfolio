@@ -70,5 +70,32 @@
         "description": "A simple admin dashboard built with React, featuring a clean UI and basic functionality for managing users and data.",
         "image": "assets/img/Admin.png",
         "link": "https://github.com/MoBMoCaffeine/CRUD-App-React"
+    },
+    {
+        "id": "09",
+        "category": "NodeJS / TypeScript",
+        "title": "jsonDB (npm Package)",
+        "subtitle": "Mongoose-inspired Local JSON Database",
+        "description": "Architected a local JSON database package for npm with schema validation and a fluent API with 10+ chainable methods, enabling developers to persist data easily.",
+        "image": "assets/img/jsondb.png",
+        "link": "https://github.com/MohamedBakrr/jsondb"
+    },
+    {
+        "id": "10",
+        "category": "Python",
+        "title": "Storify",
+        "subtitle": "Desktop Inventory Management GUI",
+        "description": "Created a desktop inventory management application with Tkinter, featuring role-based access control, product CRUD, and automated invoice generation with JSON persistence.",
+        "image": "assets/img/storify.png",
+        "link": "https://github.com/MohamedBakrr/storify"
+    },
+    {
+        "id": "11",
+        "category": "NodeJS / Express",
+        "title": "Node.js Backend Platform",
+        "subtitle": "Modular RESTful API Backend",
+        "description": "Built a modular backend platform with Express.js and MongoDB, implementing JWT authentication, WebSockets, role-based access control, and 15+ RESTful API endpoints.",
+        "image": "assets/img/backendPlatform.png",
+        "link": "https://github.com/MohamedBakrr/nodejs"
     }
 ]

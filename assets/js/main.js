@@ -1,59 +1,250 @@
-/*=============== INTRO LOADER ===============*/
-window.addEventListener("load", () => {
-  const intro = document.querySelector(".intro-loader");
-  setTimeout(() => {
-    if (intro) {
-      intro.classList.add("fade-up");
+/*=============== GSAP & SCROLLTRIGGER SETUP ===============*/
+gsap.registerPlugin(ScrollTrigger);
+
+// Force scroll to top on refresh and disable browser scroll restoration
+history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
+// Add active preloader class to body to prevent scrollbar interaction
+document.body.classList.add("preloader-active");
+
+let lenis = null;
+
+// Helper to split text into spans
+function splitTextIntoSpans(selector) {
+    const element = document.querySelector(selector);
+    if (!element) return [];
+    const text = element.textContent.trim();
+    element.innerHTML = "";
+    return text.split("").map(char => {
+        const span = document.createElement("span");
+        span.style.display = "inline-block";
+        span.style.transform = "translateY(100%)";
+        span.textContent = char === " " ? "\u00A0" : char;
+        element.appendChild(span);
+        return span;
+    });
+}
+
+// -------------------------------------------------------------
+// INTRO PRELOADER SCROLL-DRIVEN TIMELINE
+// -------------------------------------------------------------
+const introLoader = document.getElementById("intro-loader");
+const words = gsap.utils.toArray(".intro-loader__word");
+
+// Fade in scroll prompt and progress indicator initially
+gsap.to(".intro-loader__scroll", { opacity: 1, duration: 1, delay: 0.5 });
+gsap.to(".intro-loader__progress-num", { opacity: 0.8, duration: 0.5, delay: 0.5 });
+
+// Animate preloader marquee rows infinitely in alternating directions
+const marqueeTracks = gsap.utils.toArray(".intro-loader__marquee-track");
+marqueeTracks.forEach((track, index) => {
+    const toLeft = index % 2 === 0;
+    if (toLeft) {
+        gsap.to(track, {
+            xPercent: -50,
+            repeat: -1,
+            duration: 22 + index * 3,
+            ease: "none"
+        });
+    } else {
+        gsap.fromTo(track,
+            { xPercent: -50 },
+            {
+                xPercent: 0,
+                repeat: -1,
+                duration: 22 + index * 3,
+                ease: "none"
+            }
+        );
     }
-  }, 2500);
+});
 
-  setTimeout(() => {
-    if (intro) {
-      intro.style.display = "none";
+// Standard timeline for preloader words sequence (scrubbed manually)
+const introTl = gsap.timeline({ paused: true });
+
+if (words.length >= 4) {
+    introTl
+        // Word 1: BUILD
+        .to(words[0], { opacity: 1, scale: 1.05, duration: 1, ease: "power1.out" })
+        .to(words[0], { opacity: 0, scale: 1.2, duration: 1, ease: "power1.in" }, "+=0.3")
+
+        // Word 2: TRY
+        .to(words[1], { opacity: 1, scale: 1.05, duration: 1, ease: "power1.out" })
+        .to(words[1], { opacity: 0, scale: 1.2, duration: 1, ease: "power1.in" }, "+=0.3")
+
+        // Word 3: LAUNCH
+        .to(words[2], { opacity: 1, scale: 1.05, duration: 1, ease: "power1.out" })
+        .to(words[2], { opacity: 0, scale: 1.2, duration: 1, ease: "power1.in" }, "+=0.3")
+
+        // Word 4: MOHAMED BAKR
+        .to(words[3], { opacity: 1, scale: 1.05, duration: 1, ease: "power1.out" })
+
+        // Hide scroll prompt
+        .to(".intro-loader__scroll", { opacity: 0, duration: 0.5 }, 0.2);
+}
+
+let virtualProgress = 0;
+let introComplete = false;
+
+// Run profession loop after Hero entrance completes
+const runProfessionLoop = () => {
+    const chars1 = splitTextIntoSpans(".home__profession-1");
+    const chars2 = splitTextIntoSpans(".home__profession-2");
+
+    if (chars1.length && chars2.length) {
+        gsap.set(".home__profession-2", { opacity: 0 });
+        gsap.set(".home__profession-1", { opacity: 1 });
+
+        const profTl = gsap.timeline({ repeat: -1 });
+
+        profTl
+            .to(chars1, { translateY: "0%", stagger: 0.05, duration: 0.5, ease: "power2.out" })
+            .to(chars1, { translateY: "-100%", stagger: 0.03, duration: 0.4, ease: "power2.in", delay: 2 })
+            .set(".home__profession-2", { opacity: 1 })
+            .set(".home__profession-1", { opacity: 0 })
+            .to(chars2, { translateY: "0%", stagger: 0.05, duration: 0.5, ease: "power2.out" })
+            .to(chars2, { translateY: "-100%", stagger: 0.03, duration: 0.4, ease: "power2.in", delay: 2 })
+            .set(".home__profession-1", { opacity: 1 })
+            .set(".home__profession-2", { opacity: 0 });
     }
-  }, 3700);
-});
-/*=============== HOME SPLIT TEXT ===============*/
-const { animate, splitText, stagger } = anime;
-const { chars: chars1 } = splitText(".home__profession-1", {
-  chars: true,
-});
-const { chars: chars2 } = splitText(".home__profession-2", {
-  chars: true,
-});
+};
 
-animate(chars1, {
-  y: [{ to: ["100%", "0%"] }, { to: "-100%", delay: 4000, ease: "in(3)" }],
-  duration: 900,
-  ease: "out(3)",
-  delay: stagger(80),
-  loop: true,
-});
+// Function to trigger once preloader sequence completes
+const finishIntro = () => {
+    introComplete = true;
 
-animate(chars2, {
-  y: [{ to: ["100%", "0%"] }, { to: "-100%", delay: 4000, ease: "in(3)" }],
-  duration: 900,
-  ease: "out(3)",
-  delay: stagger(80),
-  loop: true,
-});
+    // Remove virtual scroll event listeners
+    window.removeEventListener("wheel", onVirtualScroll);
+    window.removeEventListener("touchstart", onTouchStart);
+    window.removeEventListener("touchmove", onTouchMove);
+
+    // Remove the scroll lock class
+    document.body.classList.remove("preloader-active");
+
+    // Exit transition of the preloader
+    const exitTl = gsap.timeline({
+        onComplete: () => {
+            // Initialize Lenis Smooth Scroll
+            lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smoothWheel: true,
+                smoothTouch: false,
+            });
+
+            lenis.on('scroll', ScrollTrigger.update);
+
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+
+            // Hide loader completely and initialize reveals
+            gsap.set("#intro-loader", { display: "none" });
+            runProfessionLoop();
+            initScrollReveals();
+        }
+    });
+
+    exitTl
+        .to(".intro-loader__bg", { yPercent: -100, duration: 1.2, ease: "power3.inOut" })
+        .to(words[3], { yPercent: -100, opacity: 0, duration: 1, ease: "power3.in" }, "<")
+        .to(".intro-loader__marquee-container", { yPercent: -100, opacity: 0, duration: 1.2, ease: "power3.inOut" }, "<")
+        .to("#intro-loader", { yPercent: -100, duration: 1.2, ease: "power3.inOut" }, "<")
+
+        // Hero Entrance Animations
+        .from(".nav__logo, .nav__link", { y: -30, opacity: 0, stagger: 0.08, duration: 0.8, ease: "power2.out" }, "-=0.4")
+        .from(".home__greeting", { x: -50, opacity: 0, duration: 0.8, ease: "power2.out" }, "<")
+        .from(".home__name", { y: 50, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.5")
+        .from(".home__perfil", { scale: 0.85, opacity: 0, duration: 1.2, ease: "power2.out" }, "-=0.8")
+        .from(".home__profession-1, .home__profession-2", { opacity: 0, y: 20, stagger: 0.15, duration: 0.8 }, "-=0.6")
+        .from(".home__social-link", { scale: 0, opacity: 0, stagger: 0.08, duration: 0.6, ease: "back.out(1.7)" }, "-=0.6")
+        .from(".home__cv", { y: 30, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.6");
+};
+
+// Handle virtual scroll
+const onVirtualScroll = (e) => {
+    if (introComplete) return;
+
+    const direction = e.deltaY > 0 ? 1 : -1;
+
+    if (direction === 1) {
+        virtualProgress = Math.min(virtualProgress + 0.12, 1);
+    } else {
+        virtualProgress = Math.max(virtualProgress - 0.12, 0);
+    }
+
+    gsap.to(introTl, {
+        progress: virtualProgress,
+        duration: 0.4,
+        ease: "power1.out",
+        onUpdate: () => {
+            const currentPercent = Math.round(introTl.progress() * 100);
+            gsap.to(".intro-loader__progress-bar", { width: `${currentPercent}%`, duration: 0.1 });
+            document.querySelector(".intro-loader__progress-num").textContent = `${currentPercent}%`;
+        },
+        onComplete: () => {
+            if (virtualProgress >= 1 && !introComplete) {
+                finishIntro();
+            }
+        }
+    });
+};
+
+let touchStartY = 0;
+const onTouchStart = (e) => {
+    touchStartY = e.touches[0].clientY;
+};
+
+const onTouchMove = (e) => {
+    if (introComplete) return;
+    const touchEndY = e.touches[0].clientY;
+    const diff = touchStartY - touchEndY; // positive = swipe up / scroll down
+
+    if (Math.abs(diff) > 8) {
+        const direction = diff > 0 ? 1 : -1;
+        virtualProgress = Math.min(Math.max(virtualProgress + direction * 0.08, 0), 1);
+
+        gsap.to(introTl, {
+            progress: virtualProgress,
+            duration: 0.4,
+            ease: "power1.out",
+            onUpdate: () => {
+                const currentPercent = Math.round(introTl.progress() * 100);
+                gsap.to(".intro-loader__progress-bar", { width: `${currentPercent}%`, duration: 0.1 });
+                document.querySelector(".intro-loader__progress-num").textContent = `${currentPercent}%`;
+            },
+            onComplete: () => {
+                if (virtualProgress >= 1 && !introComplete) {
+                    finishIntro();
+                }
+            }
+        });
+        touchStartY = touchEndY;
+    }
+};
+
+window.addEventListener("wheel", onVirtualScroll);
+window.addEventListener("touchstart", onTouchStart, { passive: true });
+window.addEventListener("touchmove", onTouchMove, { passive: true });
 
 /*=============== PROJECTS CARDS ===============*/
 const projectsContent = document.getElementById("projects-content");
 
-// get data from JSON
 fetch("assets/data/projects.json")
-  .then((response) => response.json())
-  .then((data) => {
-    renderProjects(data);
-    initSwiper();
-  })
-  .catch((error) => console.error("Error loading projects:", error));
+    .then((response) => response.json())
+    .then((data) => {
+        renderProjects(data);
+        initSwiper();
+        if (ScrollTrigger) ScrollTrigger.refresh(); // Refresh ScrollTrigger after dynamic content load
+    })
+    .catch((error) => console.error("Error loading projects:", error));
 
 function renderProjects(projects) {
-  projectsContent.innerHTML = projects
-    .map(
-      (project) => `
+    projectsContent.innerHTML = projects
+        .map(
+            (project) => `
         <article class="projects__card swiper-slide">
         <div class="blob"></div>
         
@@ -76,54 +267,50 @@ function renderProjects(projects) {
         </div>
         </article>
         `,
-    )
-    .join("");
+        )
+        .join("");
 }
 
 function initSwiper() {
-  /*=============== SWIPER PROJECTS ===============*/
-  let swiperProjects = new Swiper(".projects__swiper", {
-    loop: true,
-    spaceBetween: 24,
-    slidesPerView: "auto",
-    grabCursor: true,
-    speed: 600,
-
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-  });
+    let swiperProjects = new Swiper(".projects__swiper", {
+        loop: true,
+        spaceBetween: 24,
+        slidesPerView: "auto",
+        grabCursor: true,
+        speed: 600,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+    });
 }
 
 /*=============== WORK TABS ===============*/
-// Glassmorphism tabs
-
-/*=============== FETCH AND RENDER WORK DATA ===============*/
 const experienceContainer = document.getElementById("experience"),
-  educationContainer = document.getElementById("education");
+    educationContainer = document.getElementById("education");
 
 fetch("assets/data/work.json")
-  .then((response) => {
-    if (!response.ok) throw new Error("Network response was not ok");
-    return response.json();
-  })
-  .then((data) => {
-    renderWorkItems(data.experience, experienceContainer);
-    renderWorkItems(data.education, educationContainer);
-    initWorkTabs();
-  })
-  .catch((error) => console.error("Error loading work data:", error));
+    .then((response) => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
+    })
+    .then((data) => {
+        renderWorkItems(data.experience, experienceContainer);
+        renderWorkItems(data.education, educationContainer);
+        initWorkTabs();
+        if (ScrollTrigger) ScrollTrigger.refresh(); // Refresh ScrollTrigger after dynamic content load
+    })
+    .catch((error) => console.error("Error loading work data:", error));
 
 function renderWorkItems(items, container) {
-  if (!container) return;
-  container.innerHTML = items
-    .map(
-      (item) => `
+    if (!container) return;
+    container.innerHTML = items
+        .map(
+            (item) => `
         <div class="work__card">
             <div class="work__data">
                 <div>
@@ -135,58 +322,59 @@ function renderWorkItems(items, container) {
             <p class="work__description">${item.description}</p>
         </div>
     `,
-    )
-    .join("");
+        )
+        .join("");
 }
 
-/*=============== WORK TABS LOGIC (ELASTIC BLOB) ===============*/
 function initWorkTabs() {
-  const tabs = document.querySelectorAll("[data-target]"),
-    tabContents = document.querySelectorAll("[data-content]"),
-    blob = document.querySelector(".work__blob");
+    const tabs = document.querySelectorAll("[data-target]"),
+        tabContents = document.querySelectorAll("[data-content]"),
+        blob = document.querySelector(".work__blob");
 
-  if (!blob) return;
+    if (!blob) return;
 
-  const updateBlob = (tab) => {
-    blob.style.left = `${tab.offsetLeft}px`;
-    blob.style.width = `${tab.offsetWidth}px`;
-  };
+    const updateBlob = (tab) => {
+        blob.style.left = `${tab.offsetLeft}px`;
+        blob.style.width = `${tab.offsetWidth}px`;
+    };
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const target = document.querySelector(tab.dataset.target);
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            const target = document.querySelector(tab.dataset.target);
 
-      tabContents.forEach((tc) => tc.classList.remove("work-active"));
-      target.classList.add("work-active");
+            tabContents.forEach((tc) => tc.classList.remove("work-active"));
+            target.classList.add("work-active");
 
-      tabs.forEach((t) => t.classList.remove("work-active"));
-      tab.classList.add("work-active");
+            tabs.forEach((t) => t.classList.remove("work-active"));
+            tab.classList.add("work-active");
 
-      updateBlob(tab);
+            updateBlob(tab);
+            if (ScrollTrigger) ScrollTrigger.refresh(); // Refresh ScrollTrigger in case tab height changes
+        });
     });
-  });
 
-  const initialTab = document.querySelector(".work__button.work-active");
-  if (initialTab) {
-    setTimeout(() => updateBlob(initialTab), 100);
-  }
+    const initialTab = document.querySelector(".work__button.work-active");
+    if (initialTab) {
+        setTimeout(() => updateBlob(initialTab), 100);
+    }
 }
 
 /*=============== SERVICES DYNAMIC RENDER ===============*/
 const servicesContent = document.getElementById("services-content");
 
 fetch("assets/data/services.json")
-  .then((response) => response.json())
-  .then((data) => {
-    renderServices(data);
-    initServicesAccordion();
-  })
-  .catch((error) => console.error("Error loading services:", error));
+    .then((response) => response.json())
+    .then((data) => {
+        renderServices(data);
+        initServicesAccordion();
+        if (ScrollTrigger) ScrollTrigger.refresh(); // Refresh ScrollTrigger after dynamic content load
+    })
+    .catch((error) => console.error("Error loading services:", error));
 
 function renderServices(services) {
-  servicesContent.innerHTML = services
-    .map(
-      (service, index) => `
+    servicesContent.innerHTML = services
+        .map(
+            (service, index) => `
     <article class="services__card ${index === 0 ? "services-open" : "services-close"}">
        <div class="blob"></div>
 
@@ -204,159 +392,409 @@ function renderServices(services) {
        </div>
 
        <button class="services__button">
-         <i class="ri-arrow-down-s-line"></i>
+          <i class="ri-arrow-down-s-line"></i>
        </button>
     </article>
   `,
-    )
-    .join("");
+        )
+        .join("");
 }
 
-/*=============== SERVICES ACCORDION FUNCTION ===============*/
 function initServicesAccordion() {
-  const servicesCards = document.querySelectorAll(".services__card");
+    const servicesCards = document.querySelectorAll(".services__card");
 
-  servicesCards.forEach((card) => {
-    const button = card.querySelector(".services__button");
-    const info = card.querySelector(".services__info");
+    servicesCards.forEach((card) => {
+        const button = card.querySelector(".services__button");
+        const info = card.querySelector(".services__info");
 
-    if (card.classList.contains("services-open")) {
-      info.style.height = info.scrollHeight + "px";
-    }
+        if (card.classList.contains("services-open")) {
+            info.style.height = info.scrollHeight + "px";
+        }
 
-    button.addEventListener("click", () => {
-      const isOpen = card.classList.contains("services-open");
+        button.addEventListener("click", () => {
+            const isOpen = card.classList.contains("services-open");
 
-      servicesCards.forEach((otherCard) => {
-        otherCard.classList.replace("services-open", "services-close");
-        otherCard.querySelector(".services__info").style.height = "0";
-      });
+            servicesCards.forEach((otherCard) => {
+                otherCard.classList.replace("services-open", "services-close");
+                otherCard.querySelector(".services__info").style.height = "0";
+            });
 
-      if (!isOpen) {
-        card.classList.replace("services-close", "services-open");
-        info.style.height = info.scrollHeight + "px";
-      }
+            if (!isOpen) {
+                card.classList.replace("services-close", "services-open");
+                info.style.height = info.scrollHeight + "px";
+            }
+            if (ScrollTrigger) {
+                setTimeout(() => ScrollTrigger.refresh(), 300); // Refresh ScrollTrigger after transition finishes
+            }
+        });
     });
-  });
 }
-/*=============== TESTIMONIALS OF DUPLICATE CARDS ===============*/
 
-/*=============== COPY CONTACT ===============*/
-const copyBtn = document.getElementById("contact-btn"),
-  copyEmail = document.getElementById("contact-email").textContent;
-copyBtn.addEventListener("click", () => {
-  navigator.clipboard.writeText(copyEmail).then(() => {
-    copyBtn.innerHTML = 'Email Copied <i class="ri-check-line"></i>';
+/*=============== COPY CONTACT EMAIL ===============*/
+const copyBtn = document.getElementById("contact-btn");
+if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+        const copyEmail = document.getElementById("contact-email").textContent;
+        navigator.clipboard.writeText(copyEmail).then(() => {
+            // Temporarily change copy icon class or style
+            const copyIcon = copyBtn.querySelector(".contact__copy-icon");
+            if (copyIcon) {
+                copyIcon.className = "ri-check-line contact__copy-icon";
+                setTimeout(() => {
+                    copyIcon.className = "ri-file-copy-line contact__copy-icon";
+                }, 2000);
+            }
+        });
+    });
+}
 
-    setTimeout(() => {
-      copyBtn.innerHTML = 'Copy Email <i class="ri-file-copy-line">';
-    }, 2000);
-  });
-});
+/*=============== CONTACT FORM SUBMIT (FORMSUBMIT.CO AJAX) ===============*/
+const contactForm = document.getElementById("contact-form");
+if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById("contact-name-input").value;
+        const email = document.getElementById("contact-email-input").value;
+        const message = document.getElementById("contact-message-input").value;
+        const submitBtn = contactForm.querySelector(".contact__form-button");
+        
+        const originalBtnContent = submitBtn.innerHTML;
+        submitBtn.innerHTML = `Sending... <i class="ri-loader-4-line animate-spin"></i>`;
+        submitBtn.disabled = true;
+
+        fetch("https://formsubmit.co/ajax/bakrm1921@gmail.com", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                message: message,
+                _captcha: "false"
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success === "true" || data.success === true) {
+                submitBtn.innerHTML = `Sent Successfully! <i class="ri-check-line"></i>`;
+                submitBtn.style.backgroundColor = "hsl(140, 60%, 40%)";
+                contactForm.reset();
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.style.backgroundColor = "";
+                    submitBtn.disabled = false;
+                }, 4000);
+            } else {
+                throw new Error("Submission failed");
+            }
+        })
+        .catch(error => {
+            console.error("FormSubmit Error:", error);
+            submitBtn.innerHTML = `Failed to Send <i class="ri-error-warning-line"></i>`;
+            submitBtn.style.backgroundColor = "hsl(0, 60%, 40%)";
+            
+            setTimeout(() => {
+                submitBtn.innerHTML = originalBtnContent;
+                submitBtn.style.backgroundColor = "";
+                submitBtn.disabled = false;
+            }, 4000);
+        });
+    });
+}
+
 /*=============== CURRENT YEAR OF THE FOOTER ===============*/
-const textYear = document.getElementById("footer-year"),
-  currentYear = new Date().getFullYear();
-textYear.textContent = currentYear;
+const textYear = document.getElementById("footer-year");
+if (textYear) {
+    textYear.textContent = new Date().getFullYear();
+}
+
 /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
 const sections = document.querySelectorAll("section[id]");
 
 const scrollActive = () => {
-  const scrollY = window.scrollY;
+    const scrollY = window.scrollY;
 
-  sections.forEach((section) => {
-    const id = section.id,
-      top = section.offsetTop - 50,
-      height = section.offsetHeight,
-      link = document.querySelector(".nav__menu a[href*=" + id + "]");
-    if (!link) return;
+    sections.forEach((section) => {
+        const id = section.id,
+            top = section.offsetTop - 150,
+            height = section.offsetHeight,
+            link = document.querySelector(".nav__menu a[href*=" + id + "]");
+        if (!link) return;
 
-    link.classList.toggle(
-      "active-link",
-      scrollY > top && scrollY <= top + height,
-    );
-  });
+        link.classList.toggle(
+            "active-link",
+            scrollY > top && scrollY <= top + height,
+        );
+    });
 };
 window.addEventListener("scroll", scrollActive);
+
 /*=============== CUSTOM CURSOR ===============*/
 const cursor = document.querySelector(".cursor");
-let mouseX = 0,
-  mouseY = 0;
+if (cursor) {
+    const xTo = gsap.quickTo(cursor, "x", { duration: 0.2, ease: "power3" });
+    const yTo = gsap.quickTo(cursor, "y", { duration: 0.2, ease: "power3" });
 
-const cursorMove = () => {
-  cursor.style.left = `${mouseX}px`;
-  cursor.style.top = `${mouseY}px`;
-  cursor.style.transform = `translate(-50%, -50%)`;
+    gsap.set(cursor, { xPercent: -50, yPercent: -50 });
 
-  requestAnimationFrame(cursorMove);
-};
+    window.addEventListener("mousemove", (e) => {
+        xTo(e.clientX);
+        yTo(e.clientY);
+    });
 
-document.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
+    // Dynamic Event Delegation for Cursor hover animations
+    document.addEventListener("mouseover", (e) => {
+        const target = e.target.closest("a, button, .swiper-pagination-bullet, .work__button, .services__button, .contact__email-wrapper");
+        if (target) {
+            gsap.to(cursor, {
+                scale: 2.2,
+                backgroundColor: "transparent",
+                border: "1.5px solid var(--first-color)",
+                mixBlendMode: "normal",
+                duration: 0.3
+            });
+        }
+    });
 
-cursorMove();
-/* Hide custom cursor on links */
-const a = document.querySelectorAll("a");
-
-a.forEach((item) => {
-  item.addEventListener("mouseover", () => {
-    cursor.classList.add("hide-cursor");
-  });
-  item.addEventListener("mouseleave", () => {
-    cursor.classList.remove("hide-cursor");
-  });
-});
+    document.addEventListener("mouseout", (e) => {
+        const target = e.target.closest("a, button, .swiper-pagination-bullet, .work__button, .services__button, .contact__email-wrapper");
+        if (target) {
+            gsap.to(cursor, {
+                scale: 1,
+                backgroundColor: "var(--first-color)",
+                border: "0px solid transparent",
+                mixBlendMode: "difference",
+                duration: 0.3
+            });
+        }
+    });
+}
 
 /*=============== TECH SCROLL (JSON) ===============*/
 const techLeft = document.getElementById("tech-left");
 const techRight = document.getElementById("tech-right");
 
 fetch("assets/data/techScroll.json")
-  .then((res) => res.json())
-  .then((data) => {
-    renderTech(data);
-  })
-  .catch((err) => console.error("Error loading tech:", err));
+    .then((res) => res.json())
+    .then((data) => {
+        renderTech(data);
+        if (ScrollTrigger) ScrollTrigger.refresh(); // Refresh ScrollTrigger after dynamic content load
+    })
+    .catch((err) => console.error("Error loading tech:", err));
 
 function renderTech(techs) {
-  if (!techLeft || !techRight) return;
+    if (!techLeft || !techRight) return;
 
-  const half = Math.ceil(techs.length / 2);
-  const firstRow = techs.slice(0, half);
-  const secondRow = techs.slice(half);
-  const generateTrack = (items) => {
-    const content = items
-      .map(
-        (item) => `
+    const half = Math.ceil(techs.length / 2);
+    const firstRow = techs.slice(0, half);
+    const secondRow = techs.slice(half);
+    const generateTrack = (items) => {
+        const content = items
+            .map(
+                (item) => `
       <img src="${item.image}" alt="${item.name}">
     `,
-      )
-      .join("");
+            )
+            .join("");
 
-    return content + content;
-  };
+        return content + content;
+    };
 
-  techLeft.innerHTML = generateTrack(firstRow);
-  techRight.innerHTML = generateTrack(secondRow);
+    techLeft.innerHTML = generateTrack(firstRow);
+    techRight.innerHTML = generateTrack(secondRow);
 }
-/*=============== SCROLL REVEAL ANIMATION ===============*/
-const sr = ScrollReveal({
-  origin: "top",
-  distance: "60px",
-  duration: 2000,
-  delay: 300,
-  // reset: true,
+
+/*=============== GSAP SCROLLTRIGGER REVEAL ANIMATIONS ===============*/
+function initScrollReveals() {
+    // Section Titles Reveal
+    gsap.utils.toArray(".section__title").forEach((title) => {
+        gsap.from(title, {
+            scrollTrigger: {
+                trigger: title,
+                start: "top 85%",
+                toggleActions: "play none none none"
+            },
+            opacity: 0,
+            y: 40,
+            duration: 1,
+            ease: "power3.out"
+        });
+    });
+
+    // About Section Reveal
+    if (document.querySelector(".about__container")) {
+        gsap.from(".about__data", {
+            scrollTrigger: {
+                trigger: ".about__container",
+                start: "top 80%"
+            },
+            opacity: 0,
+            x: -80,
+            duration: 1.2,
+            ease: "power3.out"
+        });
+        gsap.from(".about__image", {
+            scrollTrigger: {
+                trigger: ".about__container",
+                start: "top 80%"
+            },
+            opacity: 0,
+            x: 80,
+            duration: 1.2,
+            ease: "power3.out"
+        });
+    }
+
+    // Skills Cards Stagger Reveal
+    if (document.querySelector(".skills__container")) {
+        gsap.from(".skills__card", {
+            scrollTrigger: {
+                trigger: ".skills__container",
+                start: "top 80%"
+            },
+            opacity: 0,
+            y: 50,
+            stagger: 0.15,
+            duration: 1,
+            ease: "power2.out"
+        });
+    }
+
+    // Services Cards Stagger Reveal
+    if (document.querySelector(".services__container")) {
+        gsap.from(".services__card", {
+            scrollTrigger: {
+                trigger: ".services__container",
+                start: "top 80%"
+            },
+            opacity: 0,
+            y: 50,
+            stagger: 0.15,
+            duration: 1,
+            ease: "power2.out"
+        });
+    }
+
+    // Reveal Projects swiper
+    if (document.querySelector(".projects__container")) {
+        gsap.from(".projects__container", {
+            scrollTrigger: {
+                trigger: ".projects__container",
+                start: "top 80%"
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1.2,
+            ease: "power3.out"
+        });
+    }
+
+    // Experience (Work) Section Reveal
+    if (document.querySelector(".work__container")) {
+        gsap.from(".work__container", {
+            scrollTrigger: {
+                trigger: ".work__container",
+                start: "top 80%"
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1.2,
+            ease: "power3.out"
+        });
+    }
+
+    // Contact Section Reveal
+    if (document.querySelector(".contact__container")) {
+        gsap.from(".contact__data", {
+            scrollTrigger: {
+                trigger: ".contact__container",
+                start: "top 85%"
+            },
+            opacity: 0,
+            x: -50,
+            duration: 1,
+            ease: "power3.out"
+        });
+        gsap.from(".contact__content", {
+            scrollTrigger: {
+                trigger: ".contact__container",
+                start: "top 85%"
+            },
+            opacity: 0,
+            x: 50,
+            duration: 1,
+            ease: "power3.out"
+        });
+    }
+
+    // Blob Animate parallax movement
+    gsap.utils.toArray(".blob-animate").forEach((blob) => {
+        gsap.to(blob, {
+            scrollTrigger: {
+                trigger: blob,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1
+            },
+            y: -50,
+            ease: "none"
+        });
+    });
+}
+
+/*=============== SHOW SCROLL UP & SMOOTH TOP SCROLL ===============*/
+const scrollUp = () => {
+    const scrollUpButton = document.getElementById("scroll-up");
+    if (!scrollUpButton) return;
+    if (window.scrollY >= 350) {
+        scrollUpButton.classList.add("show-scroll");
+    } else {
+        scrollUpButton.classList.remove("show-scroll");
+    }
+};
+window.addEventListener("scroll", scrollUp);
+
+document.addEventListener("DOMContentLoaded", () => {
+    /*=============== SHOW MENU ===============*/
+    const navMenu = document.getElementById('nav-menu'),
+          navToggle = document.getElementById('nav-toggle'),
+          navClose = document.getElementById('nav-close')
+
+    /* Menu show */
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.add('show-menu')
+        })
+    }
+
+    /* Menu hidden */
+    if (navClose) {
+        navClose.addEventListener('click', () => {
+            navMenu.classList.remove('show-menu')
+        })
+    }
+
+    /*=============== REMOVE MENU ON LINK CLICK ===============*/
+    const navLinks = document.querySelectorAll('.nav__link')
+    navLinks.forEach(n => n.addEventListener('click', () => {
+        if (navMenu) {
+            navMenu.classList.remove('show-menu')
+        }
+    }))
+
+    const scrollUpBtn = document.getElementById("scroll-up");
+    if (scrollUpBtn) {
+        scrollUpBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (lenis) {
+                lenis.scrollTo("#home");
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    }
 });
-
-sr.reveal(
-  `.home__image, .projects__container, .work__container, .testimonials__container, .contact__container`,
-);
-sr.reveal(`.home__data`, { delay: 900, origin: "bottom" });
-sr.reveal(`.home__info`, { delay: 1200, origin: "bottom" });
-sr.reveal(`.home__social, .home__cv`, { delay: 1500 });
-
-sr.reveal(`.about__data`, { origin: "left" });
-sr.reveal(`.about__image`, { origin: "right" });
-
-sr.reveal(`.services__card`, { interval: 100 });
