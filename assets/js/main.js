@@ -260,7 +260,7 @@ function renderProjects(projects) {
         </div>
         
         <div class="projects__image">
-        <img src="${project.image}" alt="${project.title}" class="projects__img">
+        <img src="${project.image}" alt="${project.title}" class="projects__img" width="302" height="180" loading="lazy">
         <a href="${project.link}" target="_blank" class="projects__button">
         <i class="ri-arrow-right-up-long-line"></i>
         </a>
@@ -289,7 +289,7 @@ function initSwiper() {
     });
 }
 
-/*=============== WORK TABS ===============*/
+/*=============== WORK TABS DYNAMIC RENDER ===============*/
 const experienceContainer = document.getElementById("experience"),
     educationContainer = document.getElementById("education");
 
@@ -372,6 +372,7 @@ fetch("assets/data/services.json")
     .catch((error) => console.error("Error loading services:", error));
 
 function renderServices(services) {
+    if (!servicesContent) return;
     servicesContent.innerHTML = services
         .map(
             (service, index) => `
@@ -608,7 +609,7 @@ function renderTech(techs) {
         const content = items
             .map(
                 (item) => `
-      <img src="${item.image}" alt="${item.name}">
+      <img src="${item.image}" alt="${item.name}" width="60" height="60" loading="lazy">
     `,
             )
             .join("");
@@ -836,8 +837,8 @@ const scrambleTextNode = (node) => {
             clearInterval(interval);
             node.nodeValue = originalText;
         }
-        iterations += 1/2; // Speed
-    }, 25);
+        iterations += 0.3; // Slower speed (was 1/2)
+    }, 35); // Slower tick interval (was 25ms)
 };
 
 const scrambleText = (element) => {
@@ -862,6 +863,7 @@ function initScrollReveals() {
     runProfileFloat();
     initMagnetic();
     init3DTilt();
+
 
     // Section Titles Reveal with scramble
     gsap.utils.toArray(".section__title").forEach((title) => {
