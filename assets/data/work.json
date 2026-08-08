@@ -13,10 +13,16 @@
             "description": "Actively solving complex algorithmic challenges to enhance analytical and logical thinking within the university's technical community."
         },
         {
-            "title": "Student Organizer – Academic Resources",
+            "title": "Student Organizer - Academic Resources",
             "subtitle": "South Valley University",
             "year": "2024 - Present",
             "description": "Spearheaded a student-led initiative to organize and distribute academic references, supporting over 400 students."
+        },
+        {
+            "title": "Technical Assistant",
+            "subtitle": "Support Community",
+            "year": "2026 - Present ",
+            "description": "Technical Assistant at Support Community, mentoring students in the fundamentals of C++, OOP, and Data Structures, with a strong focus on solving problems, developing clean, efficient, and maintainable code."
         }
     ],
     "education": [
@@ -31,6 +37,36 @@
             "subtitle": "NTI",
             "year": "End of 2025",
             "description": "Completed intensive training in modern web design principles, UI/UX best practices, and industry-standard creative tools."
+        },
+        {
+            "title": "Python Course",
+            "subtitle": "Dandara Alebdaa",
+            "year": "2026",
+            "description": "Completed intensive training in modern Python programming principles, database management, and industry-standard tools."
+        }, 
+        {
+            "title": "Startup Launchpad Course",
+            "subtitle": "Dandara Alebdaa",
+            "year": "2026",
+            "description": "Participated in an intensive training program focused on developing entrepreneurial skills, lean startup methodologies, and business model innovation. Gained practical experience in identifying market opportunities, building MVPs, and pitching startup ideas to investors."
+        }, 
+        {
+            "title": "Genreative AI Course",
+            "subtitle": "Dandara Alebdaa",
+            "year": "2026",
+            "description": "Completed an intensive training program focused on developing the fundamentals of Generative AI, machine learning concepts, and their practical applications in building intelligent systems."
+        }, 
+        {
+            "title": "Node.js Course",
+            "subtitle": "MaharaTeck",
+            "year": "2026",
+            "description": "Completed an intensive training program focused on developing the fundamentals of Node.js, including Express.js, database management, and industry-standard tools."
+        },
+        {
+            "title": "React.js Course",
+            "subtitle": "Youtube Channels",
+            "year": "2026",
+            "description": "Completed an intensive training program focused on developing the fundamentals of React.js, including React components, React state, and industry-standard tools."
         }
     ]
 }

@@ -393,10 +393,33 @@ html.lenis body {
     left: 0;
     background: transparent;
     z-index: var(--z-fixed);
-    transition: background-color 0.4s, box-shadow 0.4s;
+    transition: background-color 0.4s, box-shadow 0.4s, top 0.4s, width 0.4s, border-radius 0.4s, padding 0.4s, border 0.4s;
 }
 
-.header .blob-animate {
+/* Scroll Header Floating Pill Effect */
+.scroll-header {
+    background-color: rgba(10, 10, 10, 0.45);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media screen and (min-width: 768px) {
+    .scroll-header {
+        top: 1rem;
+        left: 0;
+        right: 0;
+        width: 90%;
+        max-width: 1024px;
+        margin-inline: auto;
+        border-radius: 4rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding-inline: 1.5rem;
+    }
+}
+
+.header-blob {
     top: -3rem;
     left: -3rem;
 }
@@ -1007,6 +1030,7 @@ html.lenis body {
 /*=============== SERVICES ===============*/
 .services__container {
     row-gap: 2rem;
+    perspective: 1000px;
 }
 
 .services__card {
@@ -1017,6 +1041,7 @@ html.lenis body {
     display: grid;
     row-gap: 1.5rem;
     overflow: hidden;
+    transform-style: preserve-3d;
 }
 
 .services__card .blob {
@@ -1389,6 +1414,10 @@ html.lenis body {
         margin-inline: auto;
     }
 
+    .home__perfil {
+        width: 320px;
+    }
+
     .about__container,
     .work__container,
     .services__container {
@@ -1423,33 +1452,29 @@ html.lenis body {
 
 @media screen and (min-width: 768px) {
     .home__container {
-        grid-template-columns: 1fr 380px 1fr;
-        align-items: center;
-        column-gap: 1.5rem;
-        width: 100%;
-        max-width: 960px;
+        width: 600px;
         margin-inline: auto;
         padding-top: 0;
     }
 
     .home__perfil {
-        width: 380px;
+        width: 350px;
     }
 
     .home__left {
-        align-items: flex-start;
-        text-align: left;
+        align-items: center;
+        text-align: center;
     }
 
     .home__social {
-        flex-direction: column;
-        row-gap: 1rem;
-        column-gap: 0;
+        flex-direction: row;
+        row-gap: 0;
+        column-gap: 1.5rem;
     }
 
     .home__right {
-        align-items: flex-end;
-        text-align: right;
+        align-items: center;
+        text-align: center;
     }
 
     .work__container {
@@ -1478,6 +1503,39 @@ html.lenis body {
     }
 }
 
+/* For intermediate desktop/large tablet screens */
+@media screen and (min-width: 992px) {
+    .home__container {
+        grid-template-columns: 1fr 380px 1fr;
+        align-items: center;
+        column-gap: 1.5rem;
+        width: 100%;
+        max-width: 960px;
+        margin-inline: auto;
+        padding-top: 0;
+    }
+
+    .home__perfil {
+        width: 380px;
+    }
+
+    .home__left {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .home__social {
+        flex-direction: column;
+        row-gap: 1rem;
+        column-gap: 0;
+    }
+
+    .home__right {
+        align-items: flex-end;
+        text-align: right;
+    }
+}
+
 /* Tablet Hamburger Menu (768px to 1150px) */
 @media screen and (min-width: 768px) and (max-width: 1150px) {
     .nav {
@@ -1493,46 +1551,81 @@ html.lenis body {
 
     .nav__menu {
         position: fixed;
-        top: 0;
-        right: -100%;
-        width: 300px;
-        height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.3);
+        width: 85%;
+        max-width: 420px;
+        height: auto;
         background-color: hsla(240, 100%, 2%, 0.95);
         backdrop-filter: blur(15px);
-        padding: 6rem 3rem 3rem;
-        transition: right 0.4s;
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        padding: 4rem 3rem;
+        border-radius: 50%; /* Circular drop initial shape */
+        opacity: 0;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         z-index: var(--z-fixed);
-        border: none;
-        border-radius: 0;
-        max-width: initial;
-        left: initial;
-        bottom: initial;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                    border-radius 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                    opacity 0.6s ease;
+        pointer-events: none;
+        left: 50% !important;
+        right: initial !important;
+        bottom: initial !important;
     }
 
     .show-menu {
-        right: 0 !important;
+        transform: translate(-50%, -50%) scale(1) !important;
+        opacity: 1 !important;
+        border-radius: 2rem !important; /* Turns into rounded capsule card */
+        pointer-events: auto;
     }
 
     .nav__list {
         flex-direction: column;
-        row-gap: 2.5rem;
-        align-items: flex-start;
+        row-gap: 2rem;
+        align-items: center;
+        width: 100%;
     }
+
+    .nav__list li {
+        transform: scale(0.5) translateY(20px);
+        opacity: 0;
+        transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s;
+    }
+
+    .show-menu .nav__list li {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+
+    .show-menu .nav__list li:nth-child(1) { transition-delay: 0.1s; }
+    .show-menu .nav__list li:nth-child(2) { transition-delay: 0.15s; }
+    .show-menu .nav__list li:nth-child(3) { transition-delay: 0.2s; }
+    .show-menu .nav__list li:nth-child(4) { transition-delay: 0.25s; }
+    .show-menu .nav__list li:nth-child(5) { transition-delay: 0.3s; }
+    .show-menu .nav__list li:nth-child(6) { transition-delay: 0.35s; }
+    .show-menu .nav__list li:nth-child(7) { transition-delay: 0.4s; }
 
     .nav__link {
         display: flex;
         flex-direction: row;
         align-items: center;
         column-gap: 1rem;
-        font-size: 1.1rem;
+        font-size: 1.25rem;
         color: var(--title-color);
+        transition: color 0.3s;
     }
 
     .nav__icon {
         font-size: 1.5rem;
         display: block;
         color: var(--first-color);
+    }
+
+    .nav__link .nav__name {
+        display: block;
+        font-size: 1.15rem;
     }
 
     .nav__toggle {
@@ -1547,9 +1640,14 @@ html.lenis body {
         position: absolute;
         top: 1.5rem;
         right: 1.5rem;
-        font-size: 2rem;
+        font-size: 1.75rem;
         color: var(--title-color);
         cursor: pointer;
+        transition: transform 0.3s;
+    }
+
+    .nav__close:hover {
+        transform: rotate(90deg);
     }
 }
 
@@ -1595,11 +1693,19 @@ html.lenis body {
         box-shadow: none;
         border-radius: 0;
         max-width: initial;
+        transform: none !important;
+        transition: none !important;
     }
 
     .nav__list {
         flex-direction: row;
         column-gap: 2.25rem;
+    }
+
+    .nav__list li {
+        transform: none !important;
+        opacity: 1 !important;
+        transition: none !important;
     }
 
     .nav__link {
@@ -1944,6 +2050,7 @@ body.preloader-active {
 /* Contact Email Copy Box */
 .contact__email-box {
     margin-top: 1rem;
+    text-align: center;
 }
 
 .contact__email-wrapper {
@@ -2028,7 +2135,7 @@ textarea:-webkit-autofill:focus {
 }
 
 /* Responsive Scroll Up */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
     .scrollup {
         right: 1.5rem;
     }
@@ -2070,6 +2177,7 @@ textarea:-webkit-autofill:focus {
 /*=============== SKILLS ===============*/
 .skills__container {
   row-gap: 2rem;
+  perspective: 1000px;
 }
 
 .skills__card {
@@ -2079,13 +2187,12 @@ textarea:-webkit-autofill:focus {
   padding: 2.5rem 2rem;
   border-radius: 1.5rem;
   overflow: hidden;
-  transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+  transition: border-color 0.4s;
+  transform-style: preserve-3d;
 }
 
 .skills__card:hover {
-  transform: translateY(-5px);
   border-color: var(--first-color);
-  box-shadow: 0 20px 40px rgba(var(--hue), 60%, 64%, 0.1);
 }
 
 .skills__card .blob {
@@ -2181,4 +2288,61 @@ textarea:-webkit-autofill:focus {
     grid-template-columns: repeat(3, 1fr);
     column-gap: 2.5rem;
   }
+}
+
+/*=============== BACKGROUND CANVAS PARTICLES ===============*/
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+}
+
+/*=============== CURSOR TRAIL GLOWS ===============*/
+.cursor-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--first-color);
+    opacity: 0.15;
+    filter: blur(4px);
+    z-index: 10000;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+.cursor-trail-2 {
+    width: 10px;
+    height: 10px;
+    opacity: 0.1;
+    filter: blur(2px);
+}
+
+/*=============== 3D PARALLAX DEPTH ===============*/
+.skills__card *,
+.services__card * {
+    transform-style: preserve-3d;
+}
+
+.skills__card .skills__blob,
+.skills__card .skills__group i,
+.services__card .services__icon,
+.services__card .blob {
+    transform: translateZ(45px);
+    transition: transform 0.4s ease;
+}
+
+.skills__card .skills__title,
+.skills__card .skills__list,
+.services__card .services__title,
+.services__card .services__description,
+.services__card .services__button {
+    transform: translateZ(25px);
+    transition: transform 0.4s ease;
 }

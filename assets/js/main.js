@@ -538,12 +538,21 @@ const cursor = document.querySelector(".cursor");
 if (cursor) {
     const xTo = gsap.quickTo(cursor, "x", { duration: 0.2, ease: "power3" });
     const yTo = gsap.quickTo(cursor, "y", { duration: 0.2, ease: "power3" });
+    
+    const xt1 = gsap.quickTo(".cursor-trail-1", "x", { duration: 0.35, ease: "power2" });
+    const yt1 = gsap.quickTo(".cursor-trail-1", "y", { duration: 0.35, ease: "power2" });
+    const xt2 = gsap.quickTo(".cursor-trail-2", "x", { duration: 0.5, ease: "power2" });
+    const yt2 = gsap.quickTo(".cursor-trail-2", "y", { duration: 0.5, ease: "power2" });
 
     gsap.set(cursor, { xPercent: -50, yPercent: -50 });
 
     window.addEventListener("mousemove", (e) => {
         xTo(e.clientX);
         yTo(e.clientY);
+        xt1(e.clientX);
+        yt1(e.clientY);
+        xt2(e.clientX);
+        yt2(e.clientY);
     });
 
     // Dynamic Event Delegation for Cursor hover animations
@@ -557,6 +566,7 @@ if (cursor) {
                 mixBlendMode: "normal",
                 duration: 0.3
             });
+            gsap.to(".cursor-trail", { opacity: 0, duration: 0.2 });
         }
     });
 
@@ -570,6 +580,8 @@ if (cursor) {
                 mixBlendMode: "difference",
                 duration: 0.3
             });
+            gsap.to(".cursor-trail-1", { opacity: 0.15, duration: 0.2 });
+            gsap.to(".cursor-trail-2", { opacity: 0.1, duration: 0.2 });
         }
     });
 }
@@ -608,15 +620,257 @@ function renderTech(techs) {
     techRight.innerHTML = generateTrack(secondRow);
 }
 
+/*=============== CONTINUOUS FLOATING PROFILE LOOP ===============*/
+const runProfileFloat = () => {
+    const profile = document.querySelector(".home__perfil");
+    if (!profile) return;
+    gsap.to(profile, {
+        y: -12,
+        rotation: 1,
+        duration: 3.5,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true
+    });
+};
+
+/*=============== MAGNETIC HOVER EFFECT ===============*/
+const initMagnetic = () => {
+    const targets = document.querySelectorAll(".home__social-link, .home__cv, #contact-btn, .nav__toggle, .contact__form-button, .scrollup");
+    targets.forEach((elem) => {
+        elem.addEventListener("mousemove", (e) => {
+            const rect = elem.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            gsap.to(elem, {
+                x: x * 0.45,
+                y: y * 0.45,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+        
+        elem.addEventListener("mouseleave", () => {
+            gsap.to(elem, {
+                x: 0,
+                y: 0,
+                duration: 0.5,
+                ease: "elastic.out(1, 0.3)"
+            });
+        });
+    });
+};
+
+/*=============== 3D TILT EFFECT ===============*/
+const init3DTilt = () => {
+    const cards = document.querySelectorAll(".skills__card, .services__card");
+    cards.forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const xc = x / rect.width - 0.5;
+            const yc = y / rect.height - 0.5;
+            
+            const maxRot = 10;
+            
+            gsap.to(card, {
+                rotateX: -yc * maxRot,
+                rotateY: xc * maxRot,
+                scale: 1.025,
+                boxShadow: "0 15px 35px rgba(0, 0, 0, 0.35)",
+                duration: 0.4,
+                ease: "power2.out"
+            });
+        });
+        
+        card.addEventListener("mouseleave", () => {
+            gsap.to(card, {
+                rotateX: 0,
+                rotateY: 0,
+                scale: 1,
+                boxShadow: "none",
+                duration: 0.6,
+                ease: "power2.out"
+            });
+        });
+    });
+};
+
+/*=============== INTERACTIVE PARTICLES CANVAS ===============*/
+const initParticleCanvas = () => {
+    const canvas = document.getElementById("particle-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    
+    let particles = [];
+    let mouse = { x: null, y: null, radius: 120 };
+    
+    const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    
+    window.addEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
+    
+    window.addEventListener("mouseleave", () => {
+        mouse.x = null;
+        mouse.y = null;
+    });
+    
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 1;
+            this.baseX = this.x;
+            this.baseY = this.y;
+            this.density = (Math.random() * 30) + 10;
+            this.color = `rgba(50, 205, 50, ${Math.random() * 0.12 + 0.04})`; // Glowing transparent green
+        }
+        
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        update() {
+            this.baseY -= 0.2;
+            if (this.baseY < 0) {
+                this.baseY = canvas.height;
+                this.x = Math.random() * canvas.width;
+                this.baseX = this.x;
+            }
+            
+            if (mouse.x !== null && mouse.y !== null) {
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < mouse.radius) {
+                    let forceDirectionX = dx / distance;
+                    let forceDirectionY = dy / distance;
+                    let maxDistance = mouse.radius;
+                    let force = (maxDistance - distance) / maxDistance;
+                    let directionX = forceDirectionX * force * this.density;
+                    let directionY = forceDirectionY * force * this.density;
+                    
+                    this.x -= directionX;
+                    this.y -= directionY;
+                } else {
+                    if (this.x !== this.baseX) {
+                        let dx = this.x - this.baseX;
+                        this.x -= dx / 15;
+                    }
+                    if (this.y !== this.baseY) {
+                        let dy = this.y - this.baseY;
+                        this.y -= dy / 15;
+                    }
+                }
+            } else {
+                if (this.x !== this.baseX) {
+                    let dx = this.x - this.baseX;
+                    this.x -= dx / 15;
+                }
+                if (this.y !== this.baseY) {
+                    let dy = this.y - this.baseY;
+                    this.y -= dy / 15;
+                }
+            }
+        }
+    }
+    
+    const init = () => {
+        particles = [];
+        const numParticles = Math.min(Math.floor((canvas.width * canvas.height) / 16000), 80);
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new Particle());
+        }
+    };
+    
+    const animate = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+        }
+        requestAnimationFrame(animate);
+    };
+    
+    init();
+    animate();
+    window.addEventListener("resize", init);
+};
+
+/*=============== DIGITAL SCRAMBLE TEXT EFFECT ===============*/
+const scrambleTextNode = (node) => {
+    const originalText = node.nodeValue;
+    if (!originalText || !originalText.trim()) return;
+    
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$%#@*&?-+=^![]{}/~0123456789";
+    let iterations = 0;
+    
+    const interval = setInterval(() => {
+        node.nodeValue = originalText
+            .split("")
+            .map((char, index) => {
+                if (char === " " || char === "\n") return char;
+                if (index < iterations) {
+                    return originalText[index];
+                }
+                return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("");
+        
+        if (iterations >= originalText.length) {
+            clearInterval(interval);
+            node.nodeValue = originalText;
+        }
+        iterations += 1/2; // Speed
+    }, 25);
+};
+
+const scrambleText = (element) => {
+    const textNodes = [];
+    const getTextNodes = (node) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            textNodes.push(node);
+        } else {
+            for (let child of node.childNodes) {
+                getTextNodes(child);
+            }
+        }
+    };
+    getTextNodes(element);
+    textNodes.forEach(scrambleTextNode);
+};
+
 /*=============== GSAP SCROLLTRIGGER REVEAL ANIMATIONS ===============*/
 function initScrollReveals() {
-    // Section Titles Reveal
+    // Run continuous animations & interactions
+    initParticleCanvas();
+    runProfileFloat();
+    initMagnetic();
+    init3DTilt();
+
+    // Section Titles Reveal with scramble
     gsap.utils.toArray(".section__title").forEach((title) => {
         gsap.from(title, {
             scrollTrigger: {
                 trigger: title,
                 start: "top 85%",
-                toggleActions: "play none none none"
+                toggleActions: "play none none none",
+                onEnter: () => scrambleText(title)
             },
             opacity: 0,
             y: 40,
@@ -693,18 +947,28 @@ function initScrollReveals() {
         });
     }
 
-    // Experience (Work) Section Reveal
+    // Experience (Work) Section Reveal - Growing line & staggered cards
     if (document.querySelector(".work__container")) {
-        gsap.from(".work__container", {
+        const workTl = gsap.timeline({
             scrollTrigger: {
                 trigger: ".work__container",
                 start: "top 80%"
-            },
+            }
+        });
+
+        workTl.from(".work__line", {
+            scaleY: 0,
+            transformOrigin: "top center",
+            duration: 1.2,
+            ease: "power3.inOut"
+        })
+        .from(".work__card", {
             opacity: 0,
             y: 50,
-            duration: 1.2,
-            ease: "power3.out"
-        });
+            stagger: 0.2,
+            duration: 0.8,
+            ease: "power2.out"
+        }, "-=0.8");
     }
 
     // Contact Section Reveal
@@ -745,6 +1009,18 @@ function initScrollReveals() {
         });
     });
 }
+
+/*=============== CHANGE BACKGROUND HEADER ===============*/
+const scrollHeader = () => {
+    const header = document.getElementById("header");
+    if (!header) return;
+    if (window.scrollY >= 50) {
+        header.classList.add("scroll-header");
+    } else {
+        header.classList.remove("scroll-header");
+    }
+};
+window.addEventListener("scroll", scrollHeader);
 
 /*=============== SHOW SCROLL UP & SMOOTH TOP SCROLL ===============*/
 const scrollUp = () => {
